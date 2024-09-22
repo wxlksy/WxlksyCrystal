@@ -20,7 +20,7 @@ public abstract class MinecraftClientMixin
     @Inject(at = @At("HEAD"), method = "doItemUse", cancellable = true)
     private void onDoItemUse(CallbackInfo ci)
     {
-        if (EnableOptimizerCommand.fastCrystal)
+        if (EnableOptimizerCommand.Crystal)
         {
             ItemStack mainHand = mc.player.getMainHandStack();
             if (mainHand.isOf(Items.END_CRYSTAL))

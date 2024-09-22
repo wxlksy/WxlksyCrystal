@@ -11,22 +11,22 @@ import net.minecraft.text.Text;
 public class EnableOptimizerCommand
 {
 
-    public static boolean fastCrystal = true;
+    public static boolean Crystal = true;
 
     public void initializeToggleCommands()
     {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-                dispatcher.register(ClientCommandManager.literal("walksyfastcrystal").executes(context -> {
-                    if (fastCrystal)
+                dispatcher.register(ClientCommandManager.literal("wxlksycrystal").executes(context -> {
+                    if (Crystal)
                     {
-                        fastCrystal = false;
-                        displayMessage("Walksy's Fast crystals disabled!");
+                        Crystal = false;
+                        displayMessage("disabled!");
                     }
 
-                    else if (!fastCrystal)
+                    else if (!Crystal)
                     {
-                        fastCrystal = true;
-                        displayMessage("Walksy's Fast crystals enabled");
+                        Crystal = true;
+                        displayMessage("enabled");
                     }
                     return 1;
                 }

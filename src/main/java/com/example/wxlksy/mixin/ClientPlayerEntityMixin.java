@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.example.wxlksy.Wxlksy;
 import com.example.wxlksy.command.EnableOptimizerCommand;
 
-import static com.example.wxlksy.Wxlksy.mc;
-
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin
 {
@@ -17,7 +15,7 @@ public abstract class ClientPlayerEntityMixin
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V", ordinal = 0), method = "tick()V")
     private void useOwnTicks(CallbackInfo ci)
     {
-        if (EnableOptimizerCommand.fastCrystal)
+        if (EnableOptimizerCommand.Crystal)
         {
             Wxlksy.useOwnTicks();
         }

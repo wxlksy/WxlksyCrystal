@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "wxlksy",
+  "version": "${version}",
+  "name": "Wxlksy",
+  "description": "",
+  "authors": ["wxlksy"],
+  "contact": {
+    "homepage": "https://github.com/wxlksy"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.example.wxlksy.Wxlksy"
+    ]
+  },
+  "mixins": [
+    "wxlksy.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "midnightlib": "*"
+  }
+}

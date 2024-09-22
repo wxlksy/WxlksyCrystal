@@ -8,7 +8,8 @@ import net.minecraft.text.Text;
 
 
 
-public class EnableOptimizerCommand {
+public class EnableOptimizerCommand
+{
 
     public static boolean fastCrystal = true;
 

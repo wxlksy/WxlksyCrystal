@@ -36,7 +36,6 @@ public class EnableOptimizerCommand
 
     public static void displayMessage(String message)
     {
-        // Make sure that they are in game.
         if (!inGame()) return;
 
         MinecraftClient client = MinecraftClient.getInstance();

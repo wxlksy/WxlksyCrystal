@@ -14,7 +14,8 @@ import static com.example.wxlksy.Wxlksy.limitPackets;
 import static com.example.wxlksy.Wxlksy.mc;
 
 @Mixin(MinecraftClient.class)
-public abstract class MinecraftClientMixin {
+public abstract class MinecraftClientMixin
+{
 
     @Inject(at = @At("HEAD"), method = "doItemUse", cancellable = true)
     private void onDoItemUse(CallbackInfo ci)

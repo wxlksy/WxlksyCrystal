@@ -15,20 +15,25 @@ public class EnableOptimizerCommand {
     public void initializeToggleCommands() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
                 dispatcher.register(ClientCommandManager.literal("walksyfastcrystal").executes(context -> {
-                    if (fastCrystal) {
+                    if (fastCrystal)
+                    {
                         fastCrystal = false;
                         displayMessage("Walksy's Fast crystals disabled!");
-                    } else if (!fastCrystal) {
+                    }
+
+                    else if (!fastCrystal)
+                    {
                         fastCrystal = true;
                         displayMessage("Walksy's Fast crystals enabled");
                     }
                     return 1;
-                }))
-        );
+                }
+                )));
     }
 
 
-    public static void displayMessage(String message) {
+    public static void displayMessage(String message)
+    {
         // Make sure that they are in game.
         if (!inGame()) return;
 
@@ -39,7 +44,8 @@ public class EnableOptimizerCommand {
     }
 
 
-    public static Boolean inGame() {
+    public static Boolean inGame()
+    {
         MinecraftClient client = MinecraftClient.getInstance();
         return client.player != null && client.getNetworkHandler() != null;
     }

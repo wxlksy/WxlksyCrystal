@@ -26,7 +26,8 @@ import java.util.List;
 import static com.example.wxlksy.Wxlksy.mc;
 
 @Mixin({EndCrystalItem.class})
-public class EndCrystalItemMixin {
+public class EndCrystalItemMixin
+{
 
     @Inject(method = {"useOnBlock"}, at = {@At("HEAD")}, cancellable = true)
     private void modifyDecrementAmount(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir)

@@ -22,11 +22,13 @@ import com.example.wxlksy.command.EnableOptimizerCommand;
 import java.util.List;
 
 
-public class Wxlksy implements ClientModInitializer {
+public class Wxlksy implements ClientModInitializer
+{
     public static MinecraftClient mc;
 
     @Override
-    public void onInitializeClient() {
+    public void onInitializeClient()
+    {
         mc = MinecraftClient.getInstance();
         EnableOptimizerCommand command = new EnableOptimizerCommand();
         command.initializeToggleCommands();
@@ -34,24 +36,33 @@ public class Wxlksy implements ClientModInitializer {
 
     public static int hitCount;
     public static int breakingBlockTick;
-    public static void useOwnTicks() {
+    public static void useOwnTicks()
+    {
         ItemStack mainHandStack = mc.player.getMainHandStack();
 
-        if (mc.options.attackKey.isPressed()) {
+        if (mc.options.attackKey.isPressed())
+        {
             breakingBlockTick++;
-        } else breakingBlockTick = 0;
+        }
+
+        else breakingBlockTick = 0;
 
         if (breakingBlockTick > 2)
             return;
 
-        if (!mc.options.useKey.isPressed()) {
+        if (!mc.options.useKey.isPressed())
+        {
             hitCount = 0;
         }
+
         if (hitCount == limitPackets())
             return;
-        if (lookingAtSaidEntity()) {
-            if (mc.options.attackKey.isPressed()) {
-                if (hitCount >= 1) {
+        if (lookingAtSaidEntity())
+        {
+            if (mc.options.attackKey.isPressed())
+            {
+                if (hitCount >= 1)
+                {
                     removeSaidEntity().kill();
                     removeSaidEntity().setRemoved(Entity.RemovalReason.KILLED);
                     removeSaidEntity().onRemoved();
@@ -59,15 +70,20 @@ public class Wxlksy implements ClientModInitializer {
                 hitCount++;
             }
         }
-        if (!mainHandStack.isOf(Items.END_CRYSTAL)) {
+
+        if (!mainHandStack.isOf(Items.END_CRYSTAL))
+        {
             return;
         }
+
         if (mc.options.useKey.isPressed()
                 && (isLookingAt(Blocks.OBSIDIAN, generalLookPos().getBlockPos())
                 || isLookingAt(Blocks.BEDROCK, generalLookPos().getBlockPos())))
         {
             sendInteractBlockPacket(generalLookPos().getBlockPos(), generalLookPos().getSide());
-            if (canPlaceCrystalServer(generalLookPos().getBlockPos())) {
+
+            if (canPlaceCrystalServer(generalLookPos().getBlockPos()))
+            {
                 mc.player.swingHand(mc.player.getActiveHand());
             }
         }
@@ -75,43 +91,57 @@ public class Wxlksy implements ClientModInitializer {
 
 
 
-    private static BlockState getBlockState(BlockPos pos) {
+    private static BlockState getBlockState(BlockPos pos)
+    {
         return mc.world.getBlockState(pos);
     }
-    private static boolean isLookingAt(Block block, BlockPos pos) {
+    private static boolean isLookingAt(Block block, BlockPos pos)
+    {
         return getBlockState(pos).getBlock() == block;
     }
 
 
-    private static BlockHitResult generalLookPos() {
+    private static BlockHitResult generalLookPos()
+    {
         Vec3d camPos = mc.player.getEyePos();
         Vec3d clientLookVec = lookVec();
         return mc.world.raycast(new RaycastContext(camPos, camPos.add(clientLookVec.multiply(4.5)), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
 
     }
 
-    private static Entity removeSaidEntity() {
+    private static Entity removeSaidEntity()
+    {
         Entity entity = null;
-        if (mc.crosshairTarget instanceof EntityHitResult hit) {
-            if (hit.getEntity() instanceof EndCrystalEntity crystalEntity) {
+        if (mc.crosshairTarget instanceof EntityHitResult hit)
+        {
+            if (hit.getEntity() instanceof EndCrystalEntity crystalEntity)
+            {
                 entity = crystalEntity;
-            } else if (hit.getEntity() instanceof SlimeEntity slimeEntity) {
+            }
+
+            else if (hit.getEntity() instanceof SlimeEntity slimeEntity)
+            {
                 entity = slimeEntity;
-            } else if (hit.getEntity() instanceof MagmaCubeEntity magmaCubeEntity) {
+            }
+
+            else if (hit.getEntity() instanceof MagmaCubeEntity magmaCubeEntity)
+            {
                 entity = magmaCubeEntity;
             }
         }
         return entity;
     }
 
-    private static boolean lookingAtSaidEntity() {
+    private static boolean lookingAtSaidEntity()
+    {
         return
                 mc.crosshairTarget instanceof EntityHitResult entity && (entity.getEntity() instanceof EndCrystalEntity
                         || entity.getEntity() instanceof MagmaCubeEntity
                         || entity.getEntity() instanceof SlimeEntity);
     }
 
-    private static Vec3d lookVec() {
+    private static Vec3d lookVec()
+    {
         float f = (float) Math.PI / 180;
         float pi = (float) Math.PI;
         float f1 = MathHelper.cos(-mc.player.getYaw() * f - pi);
@@ -121,26 +151,30 @@ public class Wxlksy implements ClientModInitializer {
         return new Vec3d(f2 * f3, f4, f1 * f3).normalize();
     }
 
-    private static ActionResult sendInteractBlockPacket(BlockPos pos, Direction dir) {
+    private static ActionResult sendInteractBlockPacket(BlockPos pos, Direction dir)
+    {
         Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
         return setPacket(vec,dir);
     }
 
-    private static ActionResult setPacket(Vec3d vec3d, Direction dir) {
+    private static ActionResult setPacket(Vec3d vec3d, Direction dir)
+    {
         Vec3i vec3i = new Vec3i((int) vec3d.x, (int) vec3d.y, (int) vec3d.z);
         BlockPos pos = new BlockPos(vec3i);
         BlockHitResult result = new BlockHitResult(vec3d, dir,pos,false);
         return mc.interactionManager.interactBlock(mc.player,mc.player.getActiveHand(),result);
     }
 
-    public static int limitPackets() {
+    public static int limitPackets()
+    {
         int stop = 2;
         if (getPing() > 50) stop = 2;
         if (getPing() < 50) stop = 1;
         return stop;
     }
 
-    private static int getPing() {
+    private static int getPing()
+    {
         if (mc.getNetworkHandler() == null) return 0;
 
         PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
@@ -148,7 +182,8 @@ public class Wxlksy implements ClientModInitializer {
         return playerListEntry.getLatency();
     }
 
-    private static boolean canPlaceCrystalServer(BlockPos block) {
+    private static boolean canPlaceCrystalServer(BlockPos block)
+    {
         BlockState blockState = mc.world.getBlockState(block);
         if (!blockState.isOf(Blocks.OBSIDIAN) && !blockState.isOf(Blocks.BEDROCK))
             return false;

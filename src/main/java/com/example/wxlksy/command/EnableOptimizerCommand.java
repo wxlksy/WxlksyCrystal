@@ -13,7 +13,8 @@ public class EnableOptimizerCommand
 
     public static boolean fastCrystal = true;
 
-    public void initializeToggleCommands() {
+    public void initializeToggleCommands()
+    {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
                 dispatcher.register(ClientCommandManager.literal("walksyfastcrystal").executes(context -> {
                     if (fastCrystal)
